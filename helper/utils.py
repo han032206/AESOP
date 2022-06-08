@@ -62,6 +62,7 @@ def extract_parses(fname):
     sentences = []
     data = {'tokens':[], 'pos':[], 'parse':'', 'deps':[]}
     for idx, line in enumerate(f):
+        # print(line)
         if line.startswith('Sentence #'):
             new_sent = True
             new_pos = False
@@ -73,7 +74,8 @@ def extract_parses(fname):
             # label_sentence(data)
             # print ' '.join(data['tokens'])
             # data['label'] = dataset[count]['label']
-            sentences.append(data)
+            if data != {'tokens': [], 'pos': [], 'parse': '', 'deps': []}:
+                sentences.append(data)
             count += 1
 
             data = {'tokens':[], 'pos':[], 'parse':'', 'deps':[]}
@@ -126,18 +128,24 @@ def extract_parses(fname):
 
     return sentences
 
-STANFORD_CORENLP = '../evaluation/apps/stanford-corenlp-full-2018-10-05'
+STANFORD_CORENLP = './evaluation/apps/stanford-corenlp-full-2016-10-31'
 class stanford_parsetree_extractor:
     def __init__(self):
         self.stanford_corenlp_path = os.path.join(STANFORD_CORENLP, "*")
         print("standford corenlp path:", self.stanford_corenlp_path)
-        self.output_dir = tempfile.TemporaryDirectory()
+        # file_list = []
+        # for root, dirs, files in os.walk(STANFORD_CORENLP):
+        #     for file in files:
+        #         file_list.append(root + '/' + file)
+        #         print(root + '/' + file)
+        # self.output_dir = tempfile.TemporaryDirectory()
+        self.output_dir = './demo_output/'
         self.cmd = ['java', '-cp', self.stanford_corenlp_path,
                     '-Xmx40g', 'edu.stanford.nlp.pipeline.StanfordCoreNLP',
                     '-parse.model', 'edu/stanford/nlp/models/srparser/englishSR.ser.gz',
                     '-annotators', 'tokenize,ssplit,pos,parse',
                     '-ssplit.eolonly', '-outputFormat', 'text',
-                    '-outputDirectory', self.output_dir.name,
+                    '-outputDirectory', self.output_dir,
                     '-file', None]
 
     def run(self, file):
@@ -149,9 +157,12 @@ class stanford_parsetree_extractor:
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE)
         print(out)
+        print('output file:',os.path.join(
+                self.output_dir,
+                os.path.split(file)[1] + ".out"))
         parsed_file = \
             os.path.join(
-                self.output_dir.name,
+                self.output_dir,
                 os.path.split(file)[1] + ".out")
         return [e['pure_parse'] for e in
                 extract_parses(parsed_file)], [e['parse'] for e in extract_parses(parsed_file)]
