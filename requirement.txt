@@ -1,5 +1,4 @@
-pytorch==1.8.0
-transformers==4.2.0.dev0
+transformers==4.2.0
 attrdict==2.0.1
 attrs==19.1.0
 boto3==1.9.199
@@ -44,3 +43,5 @@ zss==1.2.0
 h5py==2.10.0
 subword-nmt
 ipdb
+sacrebleu
+git
