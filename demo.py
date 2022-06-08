@@ -1,7 +1,12 @@
 import argparse
 from helper.utils import *
+from stanfordcorenlp import StanfordCoreNLP
 
 if __name__ == '__main__':
+    # nlp = StanfordCoreNLP('./evaluation/apps/stanford-corenlp-full-2016-10-31', lang='en')
+    # print(nlp.parse('This is an example of tokenziation.'))
+    # nlp.close()
+
     parser = argparse.ArgumentParser()
     parser.add_argument("--output_dir", "-o")
     args = parser.parse_args()
@@ -14,7 +19,7 @@ if __name__ == '__main__':
     level = 3
     print("write diverse source file")
     # generate the future target parses from the frequencies list
-    path = "processed-data/ParaNMT50-hf-refine/repe_statistics"
+    path = "processed-data/repe_statistics"
 
     output_file = open(f"{args.output_dir}/level{level}_paranmt.source", "w+")
     frequency_lines = open(f"{path}/repe_para_{level}.txt", "r").readlines()
