@@ -156,6 +156,7 @@ this will generate all the necessary files we need for both datasets, please see
 ## Use AESOP as a paraphrase tool in your project
 
 If you are looking for a paraphrasing tool to generate paraphrases with diverse syntactic parses based on your input sentence only, please give AESOP a try!
+First you should download stanford-corenlp-full-2016-10-31 via this link https://link.zhihu.com/?target=http%3A//nlp.stanford.edu/software/stanford-corenlp-full-2016-10-31.zip and put the folder under evaluation/apps/
 
 ```shell
 # first parse the input sentences and generate the necessary file for running the model
